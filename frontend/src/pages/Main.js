@@ -10,6 +10,7 @@ import dislike from '../assets/dislike.svg'
 
 export default function Main({ match }) {
   const [users, setUsers] = useState([])
+  
   useEffect(() => {
     async function loadUsers() {
       const response = await api.get('/devs', {
