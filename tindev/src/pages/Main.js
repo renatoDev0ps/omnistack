@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
-import { View, Text, SafeAreaView, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { SafeAreaView, View, Text, Image, StyleSheet } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import api from '../services/api'
 
@@ -27,8 +28,7 @@ export default function Main({ navigation }) {
   }, [id])
 
   async function handleLike() {
-    const [user, ...rest] = users
-
+    const [ user, ...rest ] = users
     await api.post(`/devs/${user._id}/likes`, null, {
       headers: { user: id }
     })
@@ -37,8 +37,7 @@ export default function Main({ navigation }) {
   }
 
   async function handleDislike() {
-    const [user, ...rest] = users
-
+    const [ user, ...rest ] = users
     await api.post(`/devs/${user._id}/dislikes`, null, {
       headers: { user: id }
     })
@@ -58,12 +57,12 @@ export default function Main({ navigation }) {
         <Image style={styles.logo} source={logo} />
       </TouchableOpacity>
 
-      <View style={styles.cardsContainer}>
+      <View style={styles.cardContainer}>
         { users.length === 0
           ? <Text style={styles.empty}>Acabou :(</Text>
           : (
             users.map((user, index) => (
-              <View key={user._id} style={[styles.card, { zIndex: users.lenght - index }]}>
+              <View key={user._id} style={[styles.card, { zIndex: users.length - index }]}>
                 <Image style={styles.avatar} source={{ uri: user.avatar }} />
                 <View style={styles.footer}>
                   <Text style={styles.name}>{user.name}</Text>
@@ -90,10 +89,17 @@ export default function Main({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1, 
     backgroundColor: '#f5f5f5',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+
+  cardContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    maxHeight: 500,
   },
 
   logo: {
@@ -105,13 +111,6 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 24,
     fontWeight: 'bold',
-  },
-
-  cardsContainer: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    maxHeight: 500,
   },
 
   card: {
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
 
   bio: {
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
 
   buttonsContainer: {
     flexDirection: 'row',
-    marginBottom: 30,
+    marginBottom: 40,
   },
 
   button: {
